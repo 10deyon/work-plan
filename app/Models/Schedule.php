@@ -17,7 +17,7 @@ class Schedule extends Model
      *
      * @var array
      */
-    protected $hidden = ['pivot', 'created_at', 'updated_at'];
+    protected $hidden = ['created_at', 'updated_at'];
 
     /**
      * The attributes that are mass assignable.
@@ -25,23 +25,11 @@ class Schedule extends Model
      * @var array
      */
     protected $fillable = [
-        'shift_id', 'worker_id', 'week_day'
+        'shift_id', 'worker_id', 'date'
     ];
     
-    /**
-     * Get the worker that belongs to a shift.
-     */
-    public function worker()
-    {
-        return $this->belongsTo(Worker::class);
-    }
-    
-    /**
-     * Get the shifts for the Schedule.
-     */
     public function shifts()
     {
-        dd("here");
-        return $this->hasMany(Shift::class)->with('shifts');
+        $this -> hasOne(Shift::class);
     }
 }

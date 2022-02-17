@@ -12,7 +12,7 @@ trait ValidationService
     public static $ShiftValidationRule = [
         "worker_id" => "required|integer",
         "shift_id" => "required|integer|exists:shifts,id",
-        "shift_day" => "required|string",
+        "date" => "required|date_format:Y-m-d",
     ];
     
     public static $FilterValidationRule = [

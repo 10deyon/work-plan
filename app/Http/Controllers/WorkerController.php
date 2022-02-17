@@ -38,8 +38,7 @@ class WorkerController extends Controller
     {
         $result = Worker::find($workerId);
         
-        $dt = $result->workSchedules()->shifts()->first();
-        // $dt = $result->with('shifts')->first();
+        $dt = $result->with('schedules.shifts')->first();
 
         return self::returnSuccess($dt);
     }

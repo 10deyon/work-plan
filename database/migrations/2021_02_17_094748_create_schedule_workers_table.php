@@ -17,9 +17,9 @@ class CreateScheduleWorkersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('worker_id');
             $table->unsignedBigInteger('shift_id');
-            $table->string('week_day');
+            $table->date('date');
 
-            $table->foreign('worker_id')->references('id')->on('workers');
+            // $table->foreign('worker_id')->references('id')->on('workers');
             $table->timestamps();
         });
     }

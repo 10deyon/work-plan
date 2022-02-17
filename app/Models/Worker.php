@@ -26,22 +26,13 @@ class Worker extends Model
     ];
 
     /**
-     * Get the phone associated with the user.
-     */
-    public function workSchedules()
-    {
-        return $this->hasOne(Schedule::class);
-    }
-
-
-    /**
     * The roles that belong to the user.
     */
     public function schedules() {
         return $this->hasMany(
             Schedule::class,  // Target model
             "worker_id",    // Foreign key on workers table...
-            "shift_id",    // Foreign key on shift table...
+            // "shift_id",    // Foreign key on shift table...
             "id"            // Local key on workers table
         );
     }
