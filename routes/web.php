@@ -2,7 +2,6 @@
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
-use Carbon\Carbon;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,9 +20,8 @@ $router->get('/', function () use ($router) {
 
 $router->group(['prefix' => 'api/v1'], function () use ($router) {	
 	$router->group(['prefix' => '/workers'], function () use ($router) {
-		$router->get('/', 'WorkerController@getWorkers');
-		$router->get('/{workerId}/schedules', 'WorkerController@getSingleWorkerAndSchedules');
-		$router->get('/schedules', 'WorkerController@getAllWorkersAndSchedules');
+		$router->get('/{workerId}', 'WorkerController@getSingleWorker');
+		$router->get('/', 'WorkerController@getAllWorkersAndSchedules');
 	});
 
 	$router->group(['prefix' => 'shifts'], function () use ($router) {

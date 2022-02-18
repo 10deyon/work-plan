@@ -6,17 +6,17 @@ use App\Models\Worker;
 
 class WorkerController extends Controller
 {
-    /**
-     * Method fetches list of all workers
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getWorkers()
-    {
-        $workers = Worker::paginate(20);
+    // /**
+    //  * Method fetches list of all workers
+    //  *
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function getWorkers()
+    // {
+    //     $workers = Worker::paginate(20);
 
-        return self::returnSuccess($workers);
-    }
+    //     return self::returnSuccess($workers);
+    // }
 
     /**
      * Method fetches all Workers and respective shift
@@ -34,7 +34,7 @@ class WorkerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getSingleWorkerAndSchedules($workerId)
+    public function getSingleWorker($workerId)
     {
         $result = Worker::find($workerId);
         

@@ -25,6 +25,9 @@ class Worker extends Model
         'name', 'email', 'employment_date'
     ];
     
+    /**
+     * Get schedules that belongs to worker
+     */
     public function scheduleWorkers() {
         return $this->hasMany(ScheduleWorker::class, 'worker_id');
     }

@@ -26,6 +26,9 @@ class ScheduleWorker extends Model
         return $this->belongsTo(Shift::class);
     }
 
+    /**
+     * Get the workers that belongs to a Schedule
+     */
     public function workers () {
         return $this->belongsTo(Worker::class, 'worker_id');
     }
