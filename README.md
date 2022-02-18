@@ -119,9 +119,9 @@ The root url of the api is
 
 ## Resources
 
-```
-  Visit https://www.getpostman.com/collections/91cb16e5992b0cf2131d to get Postman Documentation
-```
+
+  - Visit https://www.getpostman.com/collections/91cb16e5992b0cf2131d to get Postman Documentation
+
 
 <br>
 <br>

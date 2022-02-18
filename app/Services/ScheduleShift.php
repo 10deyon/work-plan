@@ -2,14 +2,11 @@
 
 namespace App\Services;
 
-use App\Models\ScheduleWorker;
 use App\Models\Shift;
 use App\Models\Worker;
 use App\Repositories\ScheduleRepository;
 use Carbon\Carbon;
 use Exception;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Validation\ValidationException;
 
 class ScheduleShift 
 {
