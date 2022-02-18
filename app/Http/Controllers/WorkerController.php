@@ -13,7 +13,7 @@ class WorkerController extends Controller
      */
     public function getWorkers()
     {
-        $workers = Worker::all();
+        $workers = Worker::paginate(20);
 
         return self::returnSuccess($workers);
     }
@@ -23,7 +23,7 @@ class WorkerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getAllWorkersAndShift()
+    public function getAllWorkersAndSchedules()
     {
         $workerShifts = Worker::with('scheduleWorkers.shift')->paginate(20);
         return self::returnSuccess($workerShifts);
@@ -34,7 +34,7 @@ class WorkerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getSingleWorkerAndShift($workerId)
+    public function getSingleWorkerAndSchedules($workerId)
     {
         $result = Worker::find($workerId);
         

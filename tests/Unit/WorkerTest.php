@@ -8,98 +8,83 @@ class WorkerTest extends TestCase
     use DatabaseMigrations;
 
     /*
-    * Test if a factory worker is created on the DB 
+    * Test to fetch all workers in the system
     *
-    */    
-    public function test_if_a_worker_is_created() {
-        $worker = Worker::factory()->create();
+    */
+    public function test_fetch_all_available_worker()
+    {
+        $res = $this->get('api/v1/workers', []);
+        $res->seeStatusCode(200);
 
-        $worker->assertOk()->json();
+        $content = json_decode($res->response->getContent());
+        $this->assertEquals(strtolower($content->message), 'successful');
+        $this->assertEquals($content->code, '00');
+
+        $res->seeJsonStructure([
+            'code',
+            'message',
+            'data' 
+            // => ['*' =>
+            //     [
+            //         'id',
+            //         'name',
+            //         'email',
+            //         'employment_date',
+            //     ]
+            // ],
+            // 'meta' => [
+            //     '*' => [
+            //         'total',
+            //         'count',
+            //         'per_page',
+            //         'current_page',
+            //         'total_pages',
+            //         'links',
+            //     ]
+            // ]
+        ]);
     }
 
-    // public function testHistoryService()
-    // {
-    //     $data = $this->createTransaction();
-        
-    //     $requestBody = [
-    //         "start_date" => date('Y-m-d'),
-    //         "end_date" => date('Y-m-d'),
-    //     ];
+    /*
+    * Test to fetch all workers in the system
+    *
+    */
+    public function test_fetch_a_single_worker_with_schedules()
+    {
+        $res = $this->get('api/v1/workers/1/schedules');
 
-    //     $page = 1;
+        $res->seeStatusCode(200);
 
-    //     $res = self::fetchHistory(new PowerTransaction(), new OldPowerTransaction(), $requestBody, $page);
-        
-    //     $this->assertArrayHasKey("total", $res);
-    //     $this->assertArrayHasKey("load_more", $res);
-    //     $this->assertArrayHasKey("items", $res);
+        $content = json_decode($res->response->getContent());
+        $this->assertEquals(strtolower($content->message), 'successful');
+        $this->assertEquals($content->code, '00');
 
-    //     $expectedCount = 1;
-    //     $this->assertCount($expectedCount, $res['items'], "testArray doesn't contains 3 elements");
-        
-    //     $this->assertEquals(count($res['items']), $data->count());
-    // }
+        $res->seeJsonStructure([
+            'code',
+            'message',
+            'data'
+        ]);
+    }
 
 
-    // private function loadProviders()
-    // {
-    //     $dataToStore = PowerProvider::create([
-    //         'name' => 'Eko Disco ',
-    //         'foreign_id' => 1,
-    //         'slug' => 'EKO_DISCO',
-    //         'created_at' => Carbon::now(),
-    //         'updated_at' => Carbon::now(),
-    //     ]);
+    /*
+    * Test to fetch all workers in the system
+    *
+    */
+    public function test_fetch_workers_with_schedules()
+    {
+        $res = $this->get('api/v1/workers/schedules');
 
-    //     return $dataToStore;
-    // }
+        $res->seeStatusCode(200);
 
+        $content = json_decode($res->response->getContent());
+        $this->assertEquals(strtolower($content->message), 'successful');
+        $this->assertEquals($content->code, '00');
 
-    // private function loadPackages()
-    // {
-    //     $provider = $this->loadProviders();
-
-    //     $dataToStore = PowerPackage::create([
-    //         'foreign_id' => 1,
-    //         'name' => 'Eko Disco ',
-    //         'slug' => 'EKO_DISCO',
-    //         'shortname' =>'ekedc_prepaid',
-    //         'provider_id' => $provider->id,
-    //         'created_at' => Carbon::now(),
-    //         'updated_at' => Carbon::now(),
-    //     ]);
-
-    //     return $dataToStore;
-    // }
-
-    // private function createTransaction()
-    // {
-    //     $power = $this->loadPackages();
-
-    //     $data = [
-    //         'trace_id' => 8765462789,
-    //         'transaction_id' => time() . rand(100, 1000),
-    //         'phone_number' => '08012345678',
-    //         'provider_id' => $power->provider_id,
-    //         'package_id' => $power->id,
-    //         'meter_number' => '04274108440',
-    //         'amount' => 600,
-    //         'email' => 'test@test.com',
-    //         'meter_type' => 'prepaid',
-    //         'status' => 'fulfilled',
-    //         'request_time' => $date = date('D jS M Y, h:i:sa'),
-    //         'date' => $date,
-    //         "customer_name" => "John Doe",
-    //         "provider" => "ikedc",
-    //         "customer_address" => "madiana close",
-    //         "token" => "256789201093258739",
-    //         "unit" => "12.5",
-    //     ];
-        
-    //     $data['client_request'] = json_encode($data);
-        
-    //     $transaction = PowerTransaction::create($data);
-        
-    //     return $transaction;
-    // }
+        $res->seeJsonStructure([
+            'code',
+            'message',
+            'data'
+        ]);
+    }
 }

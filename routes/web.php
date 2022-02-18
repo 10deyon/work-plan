@@ -15,43 +15,15 @@ use Carbon\Carbon;
 |
 */
 
-// $router->get('/', function () {
-// 	$now = Carbon::now();
-
-// 	$start = Carbon::createFromTimeString('22:00');
-// 	$end = Carbon::createFromTimeString('08:00')->addDay();
-
-// 	if ($now->between($start, $end)) {
-// 		return response()->json('¯\_(ツ)_/¯');
-// 	}
-// 	return response()->json();
-
-// 	// $dt = Carbon::create(2022, 1, 31, 0);
-
-// 	$dt = Carbon::now();
-// 	// var_dump($dt->hour);
-// 	echo $dt->toTimeString();
-
-
-// 	// $dateOfSunday = Carbon::now()->subDays(Carbon::now()->dayOfWeek)->hour(0)->minute(0)->seconds(0)->subWeek(1); // 12:00AM on Last Sunday
-// 	// $dateOfSaturday = Carbon::now()->subDays(Carbon::now()->dayOfWeek)->minute(59)->hour(23)->second(59)->addDays(6)->subWeek(1); // 11:59:59PM on Saturday
-
-// 	// return response()->json(Carbon::now());
-// 	// return response()->json($dateOfSunday);
-// 	// return response()->json($dateOfSaturday);
-
-// 	// return redirect()->route('health');
-// });
-
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
 $router->group(['prefix' => 'api/v1'], function () use ($router) {	
-	$router->group(['prefix' => 'workers'], function () use ($router) {
+	$router->group(['prefix' => '/workers'], function () use ($router) {
 		$router->get('/', 'WorkerController@getWorkers');
-		$router->get('/{workerId}/shift', 'WorkerController@getSingleWorkerAndShift');
-		$router->get('/shift', 'WorkerController@getAllWorkersAndShift');
+		$router->get('/{workerId}/schedules', 'WorkerController@getSingleWorkerAndSchedules');
+		$router->get('/schedules', 'WorkerController@getAllWorkersAndSchedules');
 	});
 
 	$router->group(['prefix' => 'shifts'], function () use ($router) {
