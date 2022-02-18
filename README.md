@@ -93,11 +93,6 @@ php artisan db:seed --class=WorkersTableSeeder
 php artisan db:seed --class=ShiftsTableSeeder
 ````
 
-## API Specification
-
-> [Full API Spec](https://github.com/gothinkster/realworld/tree/master/api)
-----------
-
 ## Environment variables
 
 - `.env` - Environment variables can be set in this file
@@ -110,20 +105,30 @@ php artisan db:seed --class=ShiftsTableSeeder
 
 Run the laravel development server
 
-    php -S localhost:8000 -t public
+```
+  php -S localhost:8000 -t public
+```
 
 
 The root url of the api is
 
-    http://localhost:8000/api/v1
+```
+  http://localhost:8000/api/v1
+```
 
 
 ## Resources
-  - Visit https://www.getpostman.com/collections/91cb16e5992b0cf2131d to get Postman Documentation
+
+```
+  Visit https://www.getpostman.com/collections/91cb16e5992b0cf2131d to get Postman Documentation
+```
 
 <br>
 <br>
 
 ## Run Test
   - Run the following command to run test
-      vendor/bin/phpunit
+
+```
+  vendor/bin/phpunit
+```

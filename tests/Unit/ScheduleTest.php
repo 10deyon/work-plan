@@ -139,10 +139,18 @@ class ScheduleTest extends TestCase
     */
     public function test_if_shift_is_already_over()
     {
+        $shift = Shift::create([
+            "shift_type" => "morning",
+            "time_in" => Carbon::now()->subHour(2)->toTimeString(),
+            "time_out"=> Carbon::now()->addHour(4)->toTimeString(),
+        ]);
+        
+        $worker = Worker::factory()->create();
+        
         $parameters = [
-            "worker_id" => 40,
-            "shift_id" => 2,
-            "date" => "2022-02-18"
+            "worker_id" => $worker->id,
+            "shift_id" => $shift->id,
+            "date" => Carbon::now()->addHour(4)->toDateString()
         ];
 
         $res = $this->post('api/v1/shifts', $parameters, []);
