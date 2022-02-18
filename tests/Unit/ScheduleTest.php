@@ -1,5 +1,9 @@
 <?php
 
+use App\Models\Shift;
+use App\Models\Worker;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 
 class ScheduleTest extends TestCase
@@ -32,12 +36,20 @@ class ScheduleTest extends TestCase
     */
     public function test_assign_shift_to_a_worker()
     {
+        $shift = Shift::create([
+            "shift_type" => "morning",
+            "time_in" => "00:00",
+            "time_out"=> "08:00",
+        ]);
+
+        $worker = Worker::factory()->create();
+        
         $parameters = [
-            "worker_id" => 40,
-            "shift_id" => 3,
+            "worker_id" => $worker->id,
+            "shift_id" => $shift->id,
             "date" => "2022-02-19"
         ];
-
+        
         $res = $this->post('api/v1/shifts', $parameters);
         $res->seeStatusCode(200);
 
@@ -58,6 +70,14 @@ class ScheduleTest extends TestCase
     */
     public function test_validate_assign_shift_params()
     {
+        $shift = Shift::create([
+            "shift_type" => "morning",
+            "time_in" => "00:00",
+            "time_out"=> "08:00",
+        ]);
+
+        $worker = Worker::factory()->create();
+
         $parameters = [
             "worker_id" => 401,
             "shift_id" => 31,
@@ -85,17 +105,27 @@ class ScheduleTest extends TestCase
     */
     public function test_if_shift_has_already_started()
     {
+        $shift = Shift::create([
+            "shift_type" => "morning",
+            "time_in" => Carbon::now()->subHour(2)->toTimeString(),
+            "time_out"=> Carbon::now()->addHour(4)->toTimeString(),
+        ]);
+        
+        $worker = Worker::factory()->create();
+        
         $parameters = [
-            "worker_id" => 40,
-            "shift_id" => 3,
-            "date" => "2022-02-18"
+            "worker_id" => $worker->id,
+            "shift_id" => $shift->id,
+            "date" => Carbon::now()->toDateString()
         ];
 
         $res = $this->post('api/v1/shifts', $parameters, []);
+        
         $res->seeStatusCode(400);
 
         $content = json_decode($res->response->getContent());
         $this->assertEquals($content->code, '02');
+        $this->assertEquals(strtolower($content->message), 'shift is already on');
 
         $res->seeJsonStructure([
             'code',
@@ -120,6 +150,7 @@ class ScheduleTest extends TestCase
 
         $content = json_decode($res->response->getContent());
         $this->assertEquals($content->code, '02');
+        $this->assertEquals(strtolower($content->message), 'shift is already on');
 
         $res->seeJsonStructure([
             'code',

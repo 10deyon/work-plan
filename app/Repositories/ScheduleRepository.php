@@ -6,14 +6,6 @@ use App\Models\ScheduleWorker;
 
 class ScheduleRepository
 {
-    public function getAll($model) {
-        
-    }
-
-    public function getOne($model) {
-
-    }
-
     public function store($request)
     {
         // create shift for the worker

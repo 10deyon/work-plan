@@ -1,6 +1,10 @@
 <?php
 
+use App\Models\ScheduleWorker;
+use App\Models\Shift;
 use App\Models\Worker;
+use Carbon\Carbon;
+use Illuminate\Console\Scheduling\Schedule;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 
 class WorkerTest extends TestCase
@@ -23,25 +27,16 @@ class WorkerTest extends TestCase
         $res->seeJsonStructure([
             'code',
             'message',
-            'data' 
-            // => ['*' =>
-            //     [
-            //         'id',
-            //         'name',
-            //         'email',
-            //         'employment_date',
-            //     ]
-            // ],
-            // 'meta' => [
-            //     '*' => [
-            //         'total',
-            //         'count',
-            //         'per_page',
-            //         'current_page',
-            //         'total_pages',
-            //         'links',
-            //     ]
-            // ]
+            'data' => [
+                'data' => [
+                    '*' => [
+                        'id',
+                        'name',
+                        'email',
+                        'employment_date',
+                    ]
+                ]
+            ],
         ]);
     }
 
@@ -51,6 +46,20 @@ class WorkerTest extends TestCase
     */
     public function test_fetch_a_single_worker_with_schedules()
     {
+        $shift = Shift::create([
+            "shift_type" => "morning",
+            "time_in" => Carbon::now()->subHour(2)->toTimeString(),
+            "time_out" => Carbon::now()->addHour(6)->toTimeString(),
+        ]);
+
+        $worker = Worker::factory()->create();
+        
+        ScheduleWorker::create([
+            "worker_id" => $worker->id,
+            "shift_id" => $shift->id,
+            "date" => "2022-02-19"
+        ]);
+
         $res = $this->get('api/v1/workers/1/schedules');
 
         $res->seeStatusCode(200);

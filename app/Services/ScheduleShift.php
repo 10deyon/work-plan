@@ -29,6 +29,7 @@ class ScheduleShift
      *
      * @param Model $model
      * @param  \Illuminate\Http\Request  $request
+     * @throws \Exception
      * @return Array $query
      */
     public function scheduleWorkerShift($request)
@@ -57,6 +58,7 @@ class ScheduleShift
      *
      * @param $shift
      * @param  \Illuminate\Http\Request  $request
+     * @throws \Exception
      * @return void
      */
     static function checkShiftStatus($shift, $request)
@@ -71,7 +73,7 @@ class ScheduleShift
         
         // check if worker already has shift for the day
         if ($request->date < $now->toDateString()) {
-            throw new ModelNotFoundException('The shift time/day is over');
+            throw new Exception('The shift time/day is over');
         }
     }
 }

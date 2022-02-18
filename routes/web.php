@@ -30,8 +30,5 @@ $router->group(['prefix' => 'api/v1'], function () use ($router) {
 		$router->get('/', 'ShiftController@getShifts');
 		$router->get('/histories', 'ShiftController@filterWorkerByShiftValue');
 		$router->post('/', 'ShiftController@asignShift');
-		
-		// $router->get('/{shiftId}/worker/{workerId}', 'ShiftController@asignShift');
-		// $router->put('/', 'ShiftController@asignShift');
 	});
 });

@@ -82,12 +82,15 @@ Open the WorkersTableSeeder and set the property values as per your requirement
 
 ````
 database/seeds/WorkersTableSeeder.php
+database/seeds/ShiftsTableSeeder.php
+
 ````
 
 Run the database seeder and you're done
 
 ````
 php artisan db:seed --class=WorkersTableSeeder
+php artisan db:seed --class=ShiftsTableSeeder
 ````
 
 ## API Specification
@@ -107,76 +110,20 @@ php artisan db:seed --class=WorkersTableSeeder
 
 Run the laravel development server
 
-    php artisan serve
+    php -S localhost:8000 -t public
 
-The api can now be accessed at
+
+The root url of the api is
 
     http://localhost:8000/api/v1
 
-Request headers
-
-| **Required** 	| **Key**              	| **Value**         |
-|---------------|-----------------------|------------------	|
-| Yes      	    | Content-Type     	    | application/json 	|
-| Yes      	    | X-Requested-With 	    | XMLHttpRequest   	|
-
-Refer the [api specification](#api-specification) for more info.
-----------
-
-# Cross-Origin Resource Sharing (CORS)
- 
-This applications has CORS enabled by default on all API endpoints. The default configuration allows requests from `http://localhost:3000` and `http://localhost:4200` to help speed up your frontend testing. The CORS allowed origins can be changed by setting them in the config file. 
-
-
-
-# Native Challenge
-
-  ## Built with
-
-  * PHP - Lumen Framework
-  * MySql
-  * Docker
-  
-  <br>
-  <br>
-
-## Setup Instructions
- - To get the app running, run the following command in the project root folder
-        
-        $ docker-compose up --build
-
- - Install Composer Dependencies for the Lumen project
-    
-        $ docker-compose exec app composer install
-  
- - Migrate and seed database with all provided records as in csv files (located in project directory `./database/files`)
-
-        $ docker-compose exec app php artisan migrate:fresh --seed
-
-<br>
-<br>
 
 ## Resources
-  - Visit https://documenter.getpostman.com/view/9029061/UV5deaGg to get Postman Documentation
-
+  - Visit https://www.getpostman.com/collections/91cb16e5992b0cf2131d to get Postman Documentation
 
 <br>
 <br>
 
 ## Run Test
   - Run the following command to run test
-
-        $ docker-compose exec app vendor/bin/phpunit
-
-
-<br>
-<br>
-
-## Bonuses
- - Connect to database on your local machine via some database client (such as Sequel Pro)
-  
-          - Host:     localhost
-          - username: root
-          - password: [leave it empty]
-          - port:     3308
-          - database: native_challenge
+      vendor/bin/phpunit
