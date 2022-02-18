@@ -25,7 +25,7 @@ class WorkerController extends Controller
      */
     public function getAllWorkersAndShift()
     {
-        $workerShifts = Worker::with('schedules')->paginate(20);
+        $workerShifts = Worker::with('scheduleWorkers.shift')->paginate(20);
         return self::returnSuccess($workerShifts);
     }
 
@@ -38,7 +38,7 @@ class WorkerController extends Controller
     {
         $result = Worker::find($workerId);
         
-        $dt = $result->with('schedules.shifts')->first();
+        $dt = $result->with('scheduleWorkers.shift')->first();
 
         return self::returnSuccess($dt);
     }

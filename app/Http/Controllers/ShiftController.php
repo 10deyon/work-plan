@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Schedule;
 use App\Models\Shift;
 use App\Services\FilterService;
 use App\Services\ScheduleShift;
@@ -30,7 +29,7 @@ class ShiftController extends Controller
      */
     public function getShifts()
     {
-        $shifts = Shift::all();
+        $shifts = Shift::with('scheduleWorkers.workers')->get();
 
         return self::returnSuccess($shifts);
     }
@@ -65,10 +64,7 @@ class ShiftController extends Controller
         $isErrored =  self::validateRequestParams($request->all(), self::$FilterValidationRule);
 		if ($isErrored) return $this->returnFailed($isErrored);
         
-        $query = $this->filterService->filterMethod(new Schedule(), $request);
-        if (!$query) {
-            return self::returnFailed('no result available');
-        }
+        $query = $this->filterService->filterMethod(new Shift(), $request);
 
         return self::returnSuccess($query, 'Successful');
     }

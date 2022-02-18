@@ -28,10 +28,10 @@ class FilterService
         });
 
         $query->when(isset($request->shift_id), function ($query) use ($request) {
-            $query->where("shift_id", "=", $request->shift_id);
+            $query->where("id", "=", $request->shift_id);
         });
         
-        $query = $query->latest()->paginate(20);
+        $query = $query->with('scheduleWorkers.workers')->paginate(20);
         
         return $query;
     }

@@ -2,9 +2,10 @@
 
 namespace App\Services;
 
-use App\Models\Schedule;
+use App\Models\ScheduleWorker;
 use App\Models\Shift;
 use App\Models\Worker;
+use App\Repositories\ScheduleRepository;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -12,6 +13,17 @@ use Illuminate\Validation\ValidationException;
 
 class ScheduleShift 
 {
+    protected $scheduleRepo;
+        /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct(ScheduleRepository $scheduleRepo)
+    {
+        $this->scheduleRepo = $scheduleRepo;
+    }
+
     /**
      * Filter service that checks by the provided value
      *
@@ -24,21 +36,36 @@ class ScheduleShift
         $worker = Worker::find($request->worker_id);
         $shift = Shift::find($request->shift_id);
 
-        $now = Carbon::now();
-        $start = Carbon::createFromTimeString($shift->time_in);
-        $end = Carbon::createFromTimeString($shift->time_out);
+        $assigned = $worker->scheduleWorkers()
+            ->where([
+                ['worker_id', '=', $request->worker_id],
+                ['date', '=', $request->date]])
+            ->first();
 
-        
         // check if worker already has shift for the day
-        if ($worker->schedules) {
-            throw new Exception('Worker is already assigned a shift for the provided date');
+        if ($assigned) {
+            throw new Exception('Worker already assigned a shift for the provided date');
         }
-        dd($worker->schedules);
-
-        dd(count($worker->schedules) > 0);
         
-        // check if shift is already running
-        if (!$now->between($start, $end)) {
+        self::checkShiftStatus($shift, $request);
+        
+        return $this->scheduleRepo->store($request);
+    }
+
+    /**
+     * Check the status of a shift before assignment
+     *
+     * @param $shift
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     */
+    static function checkShiftStatus($shift, $request)
+    {
+        $now = Carbon::now();
+        $start = Carbon::createFromTimeString($shift->time_in)->toDateTimeString();
+        $end = Carbon::createFromTimeString($shift->time_out)->toDateTimeString();
+
+        if ($now->addHour()->between($start, $end, true) && $now->toDateString() === $request->date) {
             throw new Exception('Shift is already on');
         }
         
@@ -46,14 +73,5 @@ class ScheduleShift
         if ($request->date < $now->toDateString()) {
             throw new ModelNotFoundException('The shift time/day is over');
         }
-        
-        // create shift for the worker
-        $createdStatus = Schedule::create([
-            'date' => $request->date,
-            'shift_id' => $request->shift_id,
-            'worker_id' => $request->worker_id,
-        ]);
-
-        return $createdStatus;
     }
 }

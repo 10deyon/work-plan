@@ -11,7 +11,7 @@ class Shift extends Model
      *
      * @var array
      */
-    protected $hidden = ['pivot', 'created_at', 'updated_at'];
+    protected $hidden = ['created_at', 'updated_at'];
     
     /**
      * The attributes that are mass assignable.
@@ -22,17 +22,10 @@ class Shift extends Model
         'shift_type', 'time_in', 'time_out'
     ];
     
-    // /**
-    //  * Get the scheules that owns the shift.
-    //  */
-    // public function schedules()
-    // {
-    //     dd($this->id);
-    //     return $this->belongsTo(Schedule::class)->where($this->id, 'shift_id')->get();
-    // }
-
-
-    public function schedules() {
-        return $this->belongsToMany(Schedule::class, 'id', 'shift_id' );
+    /**
+     * Get the scheules that owns the shift.
+     */
+    public function scheduleWorkers() {
+        return $this->hasMany(ScheduleWorker::class, 'shift_id');
     }
 }

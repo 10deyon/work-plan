@@ -4,14 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Schedule extends Model
+class ScheduleWorker extends Model
 {
-    /**
-     * protected var
-     * Table Name
-     */
-    protected $table = 'schedule_workers';
-    
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -28,8 +22,11 @@ class Schedule extends Model
         'shift_id', 'worker_id', 'date'
     ];
     
-    public function shifts()
-    {
-        $this -> hasOne(Shift::class);
+    public function shift() {
+        return $this->belongsTo(Shift::class);
+    }
+
+    public function workers () {
+        return $this->belongsTo(Worker::class, 'worker_id');
     }
 }

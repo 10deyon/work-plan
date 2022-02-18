@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 trait ValidationService
@@ -10,7 +9,7 @@ trait ValidationService
     private static $errorArray;
 
     public static $ShiftValidationRule = [
-        "worker_id" => "required|integer",
+        "worker_id" => "required|integer|exists:workers,id",
         "shift_id" => "required|integer|exists:shifts,id",
         "date" => "required|date_format:Y-m-d",
     ];
@@ -19,7 +18,7 @@ trait ValidationService
         "start_date" => "date_format:Y-m-d" ?? "",
         "end_date" => "date_format:Y-m-d" ?? "",
         "shift_id" => "integer|exists:shifts,id" ?? "",
-        "shift_type" => "in:all,morning,noon,evening" ?? "",
+        "shift_type" => "in:all,morning,noon,night" ?? "",
     ];
 
 
