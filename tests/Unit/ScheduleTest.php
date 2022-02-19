@@ -3,7 +3,6 @@
 use App\Models\Shift;
 use App\Models\Worker;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 
 class ScheduleTest extends TestCase
@@ -38,8 +37,8 @@ class ScheduleTest extends TestCase
     {
         $shift = Shift::create([
             "shift_type" => "morning",
-            "time_in" => "00:00",
-            "time_out"=> "08:00",
+            "time_in" => Carbon::now()->addHour(8)->toTimeString(),
+            "time_out"=> Carbon::now()->addHour(9)->toTimeString(),
         ]);
 
         $worker = Worker::factory()->create();
@@ -47,7 +46,7 @@ class ScheduleTest extends TestCase
         $parameters = [
             "worker_id" => $worker->id,
             "shift_id" => $shift->id,
-            "date" => "2022-02-19"
+            "date" => Carbon::now()->addDay()->toDateString(),
         ];
         
         $res = $this->post('api/v1/shifts', $parameters);
@@ -76,7 +75,7 @@ class ScheduleTest extends TestCase
             "time_out"=> "08:00",
         ]);
 
-        $worker = Worker::factory()->create();
+        Worker::factory()->create();
 
         $parameters = [
             "worker_id" => 401,
@@ -150,15 +149,16 @@ class ScheduleTest extends TestCase
         $parameters = [
             "worker_id" => $worker->id,
             "shift_id" => $shift->id,
-            "date" => Carbon::now()->addHour(4)->toDateString()
+            "date" => Carbon::now()->subHour(18)->toDateString()
         ];
 
+        
         $res = $this->post('api/v1/shifts', $parameters, []);
         $res->seeStatusCode(400);
 
         $content = json_decode($res->response->getContent());
         $this->assertEquals($content->code, '02');
-        $this->assertEquals(strtolower($content->message), 'shift is already on');
+        $this->assertEquals(strtolower($content->message), 'the shift time/day is over');
 
         $res->seeJsonStructure([
             'code',

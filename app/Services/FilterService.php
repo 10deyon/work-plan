@@ -31,7 +31,7 @@ class FilterService
             $query->where("id", "=", $request->shift_id);
         });
         
-        $query = $query->with('scheduleWorkers.workers')->paginate(20);
+        $query = $query->with('schedules.workers')->paginate(20);
         
         return $query;
     }

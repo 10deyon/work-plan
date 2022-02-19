@@ -34,7 +34,7 @@ class ScheduleShift
         $worker = Worker::find($request->worker_id);
         $shift = Shift::find($request->shift_id);
 
-        $assigned = $worker->scheduleWorkers()
+        $assigned = $worker->schedules()
             ->where([
                 ['worker_id', '=', $request->worker_id],
                 ['date', '=', $request->date]])

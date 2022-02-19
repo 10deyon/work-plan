@@ -6,26 +6,14 @@ use App\Models\Worker;
 
 class WorkerController extends Controller
 {
-    // /**
-    //  * Method fetches list of all workers
-    //  *
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function getWorkers()
-    // {
-    //     $workers = Worker::paginate(20);
-
-    //     return self::returnSuccess($workers);
-    // }
-
     /**
      * Method fetches all Workers and respective shift
      *
      * @return \Illuminate\Http\Response
      */
-    public function getAllWorkersAndSchedules()
+    public function getWorkersAndSchedules()
     {
-        $workerShifts = Worker::with('scheduleWorkers.shift')->paginate(20);
+        $workerShifts = Worker::with('schedules.shift')->paginate(20);
         return self::returnSuccess($workerShifts);
     }
 
@@ -36,10 +24,8 @@ class WorkerController extends Controller
      */
     public function getSingleWorker($workerId)
     {
-        $result = Worker::find($workerId);
-        
-        $dt = $result->with('scheduleWorkers.shift')->first();
+        $data = Worker::with('schedules.shift')->where('id', $workerId)->first();
 
-        return self::returnSuccess($dt);
+        return self::returnSuccess($data);
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateScheduleWorkersTable extends Migration
+class CreateSchedulesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateScheduleWorkersTable extends Migration
      */
     public function up()
     {
-        Schema::create('schedule_workers', function (Blueprint $table) {
+        Schema::create('schedules', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('worker_id');
             $table->unsignedBigInteger('shift_id');
@@ -31,6 +31,6 @@ class CreateScheduleWorkersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('schedule_workers');
+        Schema::dropIfExists('schedules');
     }
 }

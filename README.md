@@ -53,14 +53,6 @@ Run the database migrations (**Set the database connection in .env before migrat
 php artisan migrate
 ````
 
-Start the local development server
-
-````
-php -S localhost:8000 -t public
-````
-
-You can now access the server at http://localhost:8000
-
 
 **TL;DR command list**
 
@@ -76,9 +68,9 @@ You can now access the server at http://localhost:8000
 
 ## Database seeding
 
-**Populate the database with seed data with relationships which includes all necessary models (list all the models). This can help you to quickly start testing the api or couple a frontend and start using it with ready content.**
+**Populate the database with seed data with relationships which includes all necessary models (list all the models). This can help you to quickly start testing the api.**
 
-Open the WorkersTableSeeder and set the property values as per your requirement
+Open the seeders folder and set the property values as per your requirement, default values are already set on the seeders
 
 ````
 database/seeds/WorkersTableSeeder.php
@@ -89,8 +81,7 @@ database/seeds/ShiftsTableSeeder.php
 Run the database seeder and you're done
 
 ````
-php artisan db:seed --class=WorkersTableSeeder
-php artisan db:seed --class=ShiftsTableSeeder
+  php artisan db:seed
 ````
 
 ## Environment variables
@@ -119,11 +110,9 @@ The root url of the api is
 
 ## Resources
 
-
   - Visit https://www.getpostman.com/collections/91cb16e5992b0cf2131d to get Postman Documentation
 
 
-<br>
 <br>
 
 ## Run Test

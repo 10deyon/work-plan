@@ -21,7 +21,7 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix' => 'api/v1'], function () use ($router) {	
 	$router->group(['prefix' => '/workers'], function () use ($router) {
 		$router->get('/{workerId}', 'WorkerController@getSingleWorker');
-		$router->get('/', 'WorkerController@getAllWorkersAndSchedules');
+		$router->get('/', 'WorkerController@getWorkersAndSchedules');
 	});
 
 	$router->group(['prefix' => 'shifts'], function () use ($router) {

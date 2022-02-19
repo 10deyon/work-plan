@@ -25,7 +25,7 @@ class Shift extends Model
     /**
      * Get the scheules that owns the shift.
      */
-    public function scheduleWorkers() {
-        return $this->hasMany(ScheduleWorker::class, 'shift_id');
+    public function schedules() {
+        return $this->hasMany(Schedule::class, 'shift_id');
     }
 }

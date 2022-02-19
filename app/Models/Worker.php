@@ -28,7 +28,7 @@ class Worker extends Model
     /**
      * Get schedules that belongs to worker
      */
-    public function scheduleWorkers() {
-        return $this->hasMany(ScheduleWorker::class, 'worker_id');
+    public function schedules() {
+        return $this->hasMany(Schedule::class, 'worker_id');
     }
 }

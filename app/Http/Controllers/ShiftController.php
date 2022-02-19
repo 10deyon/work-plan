@@ -29,7 +29,7 @@ class ShiftController extends Controller
      */
     public function getShifts()
     {
-        $shifts = Shift::with('scheduleWorkers.workers')->get();
+        $shifts = Shift::with('schedules.workers')->get();
 
         return self::returnSuccess($shifts);
     }
